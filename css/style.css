@@ -60,7 +60,7 @@ html {
   position: relative;
   border: 5px double rgb(41, 64, 212);
   margin: 2em auto;
-  height: 600px;
+  height: 610px;
   width: 810px;
 }
 
@@ -68,7 +68,6 @@ html {
   position: absolute;
   top: 0;
   left: 0;
-  opacity: .2;
 }
 
 nav {

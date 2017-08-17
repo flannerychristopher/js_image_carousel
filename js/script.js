@@ -33,7 +33,6 @@ const slider = {
   },
 
   fadeIn: function() {
-
     let img = containerElement.firstChild;
     if (img.style.opacity < 1) {
       setTimeout( function() {
@@ -54,6 +53,7 @@ const slider = {
 
     let prevElement = document.createElement('img');
     prevElement.setAttribute('src', slider.imgHand[0]);
+    prevElement.style.opacity = 0;
     containerElement.appendChild(prevElement);
 
     // this.pause();
@@ -70,16 +70,20 @@ const slider = {
 
     let nextElement = document.createElement('img');
     nextElement.setAttribute('src', slider.imgHand[0]);
+    nextElement.style.opacity = 0;
     containerElement.appendChild(nextElement);
+
+    this.fadeIn();
 
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
   }
 }
 
 
-containerElement.firstChild.setAttribute('src', slider.imgHand[0]); // place first imag
-// slider.start();
+containerElement.firstChild.setAttribute('src', slider.imgHand[0]); // place first image
+containerElement.childNodes[1].setAttribute('src', slider.imgHand[1]);
+slider.start();
 
 // remove later -----------------------------------------------
-containerElement.firstChild.style.opacity = 0;
-slider.fadeIn();
+// containerElement.firstChild.style.opacity = 0;
+// slider.fadeIn();
