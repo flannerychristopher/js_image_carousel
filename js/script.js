@@ -5,7 +5,18 @@ const slider = {
   imgHand: [ 'img/img0.jpg', 'img/img1.jpg' ], // active and inactive images
   imgDeck: [ 'img/img2.jpg', 'img/img3.jpg', 'img/img4.jpg', 'img/img5.jpg'],
 
-  start: function() {
+  initialize: function() {
+    containerElement.firstChild.setAttribute('src', slider.imgHand[0]); // place first image
+    containerElement.childNodes[1].setAttribute('src', slider.imgHand[1]);
+    containerElement.childNodes[1].style.opacity = 0;
+    setTimeout( function() {
+      slider.fadeIn();
+      slider.fadeOut();
+      slider.play();
+    }, 5000);
+  },
+
+  play: function() {
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
 
     interval = setInterval( function() { // begins movement
@@ -23,8 +34,8 @@ const slider = {
     containerElement.addEventListener('mouseover', () => { // pauses
       this.pause();
     });
-    containerElement.addEventListener('mouseout', () => { // restarts
-      this.start();
+    containerElement.addEventListener('mouseout', () => { // replays
+      this.play();
     });
   },
 
@@ -33,13 +44,22 @@ const slider = {
   },
 
   fadeIn: function() {
-    let img = containerElement.firstChild;
+    let img = containerElement.childNodes[1];
     if (img.style.opacity < 1) {
       setTimeout( function() {
         img.style.opacity = img.style.opacity * 1 + .01;
-        console.log('increase opacity');
         slider.fadeIn();
-      }, 20);
+      }, 30);
+    }
+  },
+
+  fadeOut: function() {
+    let img = containerElement.firstChild;
+    if (img.style.opacity > 0) {
+      setTimeout( function() {
+        img.style.opacity = img.style.opacity * 1 - .01;
+        slider.fadeOut();
+      }, 30);
     }
   },
 
@@ -57,7 +77,7 @@ const slider = {
     containerElement.appendChild(prevElement);
 
     // this.pause();
-    // setTimeout( function() { slider.start(); }, 10000);
+    // setTimeout( function() { slider.play(); }, 10000);
   },
 
   showNext: function() {
@@ -73,17 +93,11 @@ const slider = {
     nextElement.style.opacity = 0;
     containerElement.appendChild(nextElement);
 
+    this.fadeOut();
     this.fadeIn();
 
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
   }
 }
 
-
-containerElement.firstChild.setAttribute('src', slider.imgHand[0]); // place first image
-containerElement.childNodes[1].setAttribute('src', slider.imgHand[1]);
-slider.start();
-
-// remove later -----------------------------------------------
-// containerElement.firstChild.style.opacity = 0;
-// slider.fadeIn();
+slider.initialize();
