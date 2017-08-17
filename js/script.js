@@ -1,14 +1,14 @@
 const buttonElements = document.getElementsByTagName('button');
 
 const slider = {
-  imgDeck: [ 'img/img0.jpg', 'img/img1.jpg', 'img/img2.jpg',  // not active
-              'img/img3.jpg', 'img/img4.jpg', 'img/img5.jpg'],
-
-  imgHand: []
+  imgHand: [ 'img/img0.jpg' ], // active and inactive images
+  imgDeck: [ 'img/img1.jpg', 'img/img2.jpg', 'img/img3.jpg', 'img/img4.jpg', 'img/img5.jpg'],
 
   imgElement: document.getElementById('img'),
 
   start: function() {
+    console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
+
     interval = setInterval( function() { // begins movement
       slider.showNext();
     }, 5000);
@@ -34,27 +34,31 @@ const slider = {
   },
 
   fadeIn: function() {
-    this.imgElement.style.opacity += .1;
+    // this.imgElement.style.opacity += .1;
 
   },
 
   showPrev: function() {
-    let prev = this.imgDeck.indexOf( this.imgElement.getAttribute('src') ) - 1;
-    if (prev === -1) {
-      prev = this.imgDeck.length - 1;
-    }
-    this.imgElement.setAttribute('src', this.imgDeck[prev]);
+
+
+    this.imgHand.push( this.imgDeck[this.imgDeck.length - 1]);
+    this.imgDeck.pop();
+
+    this.imgDeck.unshift( this.imgHand[0] );
+    this.imgHand.shift();
+    console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
   },
 
   showNext: function() {
-    let next = this.imgDeck.indexOf( this.imgElement.getAttribute('src') ) + 1;
-    if (next === this.imgDeck.length) {
-      next = 0;
-    }
-    this.imgElement.setAttribute('src', this.imgDeck[next]);
+    this.imgHand.push( this.imgDeck[0] );
+    this.imgDeck.shift();
+
+    this.imgDeck.push( this.imgHand[0] );
+    this.imgHand.shift();
+    console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
   }
 }
 
 
-slider.imgElement.setAttribute('src', slider.imgDeck[0]); // place first image
+slider.imgElement.setAttribute('src', slider.imgHand[0]); // place first imag
 slider.start(); // start the slider
