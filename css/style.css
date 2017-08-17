@@ -57,9 +57,18 @@ html {
 }
 
 #container {
+  position: relative;
   border: 5px double rgb(41, 64, 212);
   margin: 2em auto;
+  height: 600px;
   width: 810px;
+}
+
+#container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: .2;
 }
 
 nav {

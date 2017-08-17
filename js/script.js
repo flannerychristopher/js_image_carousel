@@ -1,10 +1,9 @@
+const containerElement = document.getElementById('container');
 const buttonElements = document.getElementsByTagName('button');
 
 const slider = {
   imgHand: [ 'img/img0.jpg', 'img/img1.jpg' ], // active and inactive images
   imgDeck: [ 'img/img2.jpg', 'img/img3.jpg', 'img/img4.jpg', 'img/img5.jpg'],
-
-  imgElement: document.getElementById('img'),
 
   start: function() {
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
@@ -21,10 +20,10 @@ const slider = {
       slider.showNext();
     }
 
-    this.imgElement.addEventListener('mouseover', () => { // pauses
+    containerElement.addEventListener('mouseover', () => { // pauses
       this.pause();
     });
-    this.imgElement.addEventListener('mouseout', () => { // restarts
+    containerElement.addEventListener('mouseout', () => { // restarts
       this.start();
     });
   },
@@ -35,14 +34,14 @@ const slider = {
 
   fadeIn: function() {
 
-    let img = slider.imgElement;
-
-    setTimeout( function() {
-      img.style.opacity = img.style.opacity * 1 + .01;
-      console.log('increase opacity');
-      slider.fadeIn();
-    }, 50);
-
+    let img = containerElement.firstChild;
+    if (img.style.opacity < 1) {
+      setTimeout( function() {
+        img.style.opacity = img.style.opacity * 1 + .01;
+        console.log('increase opacity');
+        slider.fadeIn();
+      }, 20);
+    }
   },
 
   showPrev: function() {
@@ -53,7 +52,9 @@ const slider = {
     this.imgHand.shift();
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
 
-    this.imgElement.setAttribute('src', slider.imgHand[0]);
+    let prevElement = document.createElement('img');
+    prevElement.setAttribute('src', slider.imgHand[0]);
+    containerElement.appendChild(prevElement);
 
     // this.pause();
     // setTimeout( function() { slider.start(); }, 10000);
@@ -62,18 +63,23 @@ const slider = {
   showNext: function() {
     this.imgHand.push( this.imgDeck[0] );
     this.imgDeck.shift();
+    containerElement.removeChild(containerElement.firstChild);
 
     this.imgDeck.push( this.imgHand[0] );
     this.imgHand.shift();
-    console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
 
-    this.imgElement.setAttribute('src', slider.imgHand[0]);
+    let nextElement = document.createElement('img');
+    nextElement.setAttribute('src', slider.imgHand[0]);
+    containerElement.appendChild(nextElement);
+
+    console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
   }
 }
 
 
-slider.imgElement.setAttribute('src', slider.imgHand[0]); // place first imag
+containerElement.firstChild.setAttribute('src', slider.imgHand[0]); // place first imag
 // slider.start();
 
-slider.imgElement.style.opacity = 0;
+// remove later -----------------------------------------------
+containerElement.firstChild.style.opacity = 0;
 slider.fadeIn();
