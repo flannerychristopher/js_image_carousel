@@ -1,8 +1,8 @@
 const buttonElements = document.getElementsByTagName('button');
 
 const slider = {
-  imgHand: [ 'img/img0.jpg' ], // active and inactive images
-  imgDeck: [ 'img/img1.jpg', 'img/img2.jpg', 'img/img3.jpg', 'img/img4.jpg', 'img/img5.jpg'],
+  imgHand: [ 'img/img0.jpg', 'img/img1.jpg' ], // active and inactive images
+  imgDeck: [ 'img/img2.jpg', 'img/img3.jpg', 'img/img4.jpg', 'img/img5.jpg'],
 
   imgElement: document.getElementById('img'),
 
@@ -39,14 +39,14 @@ const slider = {
   },
 
   showPrev: function() {
-
-
     this.imgHand.push( this.imgDeck[this.imgDeck.length - 1]);
     this.imgDeck.pop();
 
     this.imgDeck.unshift( this.imgHand[0] );
     this.imgHand.shift();
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
+
+    this.imgElement.setAttribute('src', slider.imgHand[0]);
   },
 
   showNext: function() {
@@ -56,6 +56,8 @@ const slider = {
     this.imgDeck.push( this.imgHand[0] );
     this.imgHand.shift();
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
+
+    this.imgElement.setAttribute('src', slider.imgHand[0]);
   }
 }
 
