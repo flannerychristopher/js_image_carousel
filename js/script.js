@@ -34,7 +34,14 @@ const slider = {
   },
 
   fadeIn: function() {
-    // this.imgElement.style.opacity += .1;
+
+    let img = slider.imgElement;
+
+    setTimeout( function() {
+      img.style.opacity = img.style.opacity * 1 + .01;
+      console.log('increase opacity');
+      slider.fadeIn();
+    }, 50);
 
   },
 
@@ -47,6 +54,9 @@ const slider = {
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
 
     this.imgElement.setAttribute('src', slider.imgHand[0]);
+
+    // this.pause();
+    // setTimeout( function() { slider.start(); }, 10000);
   },
 
   showNext: function() {
@@ -63,4 +73,7 @@ const slider = {
 
 
 slider.imgElement.setAttribute('src', slider.imgHand[0]); // place first imag
-slider.start(); // start the slider
+// slider.start();
+
+slider.imgElement.style.opacity = 0;
+slider.fadeIn();
