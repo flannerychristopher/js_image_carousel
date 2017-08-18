@@ -57,12 +57,18 @@ const carousel = {
   slide: function() {
     element1 = containerElement.childNodes[1];
     element2 = containerElement.firstChild;
-    for (let i = 0; i < 801; i++) {
-      setTimeout( function() {
-        element1.style.left = `-${i}px`;
-        element2.style.left = `${i -800}px`;
-      }, 500);
-    }
+    element2.style.left = '800px';
+    var i = 0;
+    let slideInterval = setInterval( function() {
+      if (i <= 800) {
+        console.log(i);
+        element1.style.left = `${800 - i}px`;
+        element2.style.left = `-${i}px`;
+        i += 10;
+      } else {
+        return;
+      }
+    }, 62.5)
 
   },
 
