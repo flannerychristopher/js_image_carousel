@@ -1,35 +1,33 @@
 const containerElement = document.getElementById('container');
 const buttonElements = document.getElementsByTagName('button');
 
-const slider = {
+const carousel = {
   imgHand: [ 'img/img0.jpg' ], // active and inactive images
   imgDeck: [ 'img/img1.jpg', 'img/img2.jpg', 'img/img3.jpg', 'img/img4.jpg', 'img/img5.jpg'],
 
   initialize: function() {
-    containerElement.childNodes[1].setAttribute('src', slider.imgHand[0]);
-    containerElement.childNodes[1].style.opacity = 0;
-    setTimeout( function() {
-      slider.play();
-      slider.fade();
-    }, 3000);
+    containerElement.childNodes[1].setAttribute('src', carousel.imgHand[0]);
+    // containerElement.childNodes[1].style.opacity = 0;
+    carousel.play();
+    // carousel.fade();
+    this.slide();
   },
 
   play: function() {
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
 
     interval = setInterval( function() { // begins movement
-      slider.showNext();
+      carousel.showNext();
     }, 5000);
 
     buttonElements[0].onclick = () => {
       this.pause();
-      this.play();
-      this.showNext();
+
     };
 
     buttonElements[1].onclick = () => {
       this.pause();
-
+      this.showNext();
     };
 
     containerElement.addEventListener('mouseover', () => { // pauses
@@ -50,10 +48,22 @@ const slider = {
     if (element1.style.opacity < 1) {
       setTimeout( function() {
         element1.style.opacity = element1.style.opacity * 1 + .01;
-        element2.style.opacity = element2.style.opacity * 1 - .01;
-        slider.fade();
+        element2.style.opacity = element2.style.opacity * 1 - .02;
+        carousel.fade();
       }, 20);
     }
+  },
+
+  slide: function() {
+    element1 = containerElement.childNodes[1];
+    element2 = containerElement.firstChild;
+    for (let i = 0; i < 801; i++) {
+      setTimeout( function() {
+        element1.style.left = `-${i}px`;
+        element2.style.left = `${i -800}px`;
+      }, 500);
+    }
+
   },
 
   showPrev: function() {
@@ -62,17 +72,14 @@ const slider = {
 
     containerElement.removeChild(containerElement.childNodes[1]); // remove HTML
     let prevElement = document.createElement('img');              // add HTML
-    prevElement.setAttribute('src', slider.imgHand[0]);
-    prevElement.style.opacity = 0;
+    prevElement.setAttribute('src', this.imgHand[0]);
+    // prevElement.style.opacity = 0;
     containerElement.appendChild(prevElement);
 
     this.imgDeck.unshift( this.imgHand[0] );  // place image back in deck
     this.imgHand.shift();                     // remove image from hand
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
 
-    this.fade();
-    // this.pause();
-    // setTimeout( function() { slider.play(); }, 10000);
   },
 
   showNext: function() {
@@ -81,8 +88,8 @@ const slider = {
 
     containerElement.removeChild(containerElement.firstChild); // remove HTML
     let nextElement = document.createElement('img');      // append new node
-    nextElement.setAttribute('src', slider.imgHand[1]);
-    nextElement.style.opacity = 0;
+    nextElement.setAttribute('src', carousel.imgHand[1]);
+    // nextElement.style.opacity = 0;
     containerElement.appendChild(nextElement);
 
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
@@ -90,9 +97,9 @@ const slider = {
     this.imgDeck.push( this.imgHand[0] ); // place image back in deck
     this.imgHand.shift();                 // remove image from hand
 
-    // this.fadeForward();
-    this.fade();
+    // this.fade();
+    this.slide();
   }
 }
 
-slider.initialize();
+carousel.initialize();

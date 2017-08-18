@@ -56,9 +56,16 @@ html {
   box-sizing: inherit;
 }
 
+body {
+  background: #999;
+  color: #fff;
+}
+
 #container {
   position: relative;
-  border: 5px double rgb(41, 64, 212);
+  background: #fff;
+  border-radius: 1em;
+  /*border: 5px double rgb(41, 64, 212);*/
   margin: 2em auto;
   height: 610px;
   width: 810px;
@@ -68,6 +75,7 @@ html {
   position: absolute;
   top: 0;
   left: 0;
+  border-radius: 1em;
 }
 
 nav {
@@ -78,7 +86,8 @@ nav {
 button {
   width: 150px;
   height: 50px;
-  background: rgb(41, 172, 29, 0.5);
+  background: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 1em;
+  color: #999;
 }
