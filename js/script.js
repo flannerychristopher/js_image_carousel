@@ -7,9 +7,9 @@ const carousel = {
 
   initialize: function() {
     containerElement.childNodes[1].setAttribute('src', carousel.imgHand[0]);
-    // containerElement.childNodes[1].style.opacity = 0;
+    containerElement.childNodes[1].style.opacity = 0;
     carousel.play();
-    // carousel.fade();
+    carousel.fade();
     this.slide();
   },
 
@@ -57,7 +57,7 @@ const carousel = {
   slide: function() {
     element1 = containerElement.childNodes[1];
     element2 = containerElement.firstChild;
-    element2.style.left = '800px';
+    // element2.style.left = '800px';
     var i = 0;
     let slideInterval = setInterval( function() {
       if (i <= 800) {
@@ -68,7 +68,7 @@ const carousel = {
       } else {
         return;
       }
-    }, 62.5)
+    }, 30)
 
   },
 
@@ -96,6 +96,7 @@ const carousel = {
     let nextElement = document.createElement('img');      // append new node
     nextElement.setAttribute('src', carousel.imgHand[1]);
     // nextElement.style.opacity = 0;
+    nextElement.style.left = '800px';
     containerElement.appendChild(nextElement);
 
     console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
@@ -103,7 +104,7 @@ const carousel = {
     this.imgDeck.push( this.imgHand[0] ); // place image back in deck
     this.imgHand.shift();                 // remove image from hand
 
-    // this.fade();
+    this.fade();
     this.slide();
   }
 }
