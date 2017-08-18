@@ -2,18 +2,17 @@ const containerElement = document.getElementById('container');
 const buttonElements = document.getElementsByTagName('button');
 
 const slider = {
-  imgHand: [ 'img/img0.jpg', 'img/img1.jpg' ], // active and inactive images
-  imgDeck: [ 'img/img2.jpg', 'img/img3.jpg', 'img/img4.jpg', 'img/img5.jpg'],
+  imgHand: [ 'img/img0.jpg' ], // active and inactive images
+  imgDeck: [ 'img/img1.jpg', 'img/img2.jpg', 'img/img3.jpg', 'img/img4.jpg', 'img/img5.jpg'],
 
   initialize: function() {
     containerElement.firstChild.setAttribute('src', slider.imgHand[0]); // place first image
-    containerElement.childNodes[1].setAttribute('src', slider.imgHand[1]);
-    containerElement.childNodes[1].style.opacity = 0;
+    containerElement.childNodes[1].setAttribute('src', slider.imgHand[0]);
+    // containerElement.childNodes[1].style.opacity = 0;
     setTimeout( function() {
-      slider.fadeIn();
-      slider.fadeOut();
       slider.play();
-    }, 5000);
+      slider.showNext();
+    }, 3000);
   },
 
   play: function() {
@@ -25,11 +24,13 @@ const slider = {
 
     buttonElements[0].onclick = () => {
       slider.showPrev();
-    }
+    };
 
     buttonElements[1].onclick = () => {
-      slider.showNext();
-    }
+
+      this.showNext();
+      this.pause();
+    };
 
     containerElement.addEventListener('mouseover', () => { // pauses
       this.pause();
@@ -59,7 +60,7 @@ const slider = {
       setTimeout( function() {
         img.style.opacity = img.style.opacity * 1 - .01;
         slider.fadeOut();
-      }, 30);
+      }, 10);
     }
   },
 
@@ -81,22 +82,25 @@ const slider = {
   },
 
   showNext: function() {
-    this.imgHand.push( this.imgDeck[0] );
-    this.imgDeck.shift();
+    this.imgHand.push( this.imgDeck[0] ); // add new image to hand
+    this.imgDeck.shift();                 // remove that image from deck
     containerElement.removeChild(containerElement.firstChild);
 
-    this.imgDeck.push( this.imgHand[0] );
-    this.imgHand.shift();
-
-    let nextElement = document.createElement('img');
-    nextElement.setAttribute('src', slider.imgHand[0]);
+    let nextElement = document.createElement('img');    // append HTML
+    nextElement.setAttribute('src', slider.imgHand[1]);
     nextElement.style.opacity = 0;
     containerElement.appendChild(nextElement);
+
+
+    console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
+
+    this.imgDeck.push( this.imgHand[0] ); // place image back in deck
+    this.imgHand.shift();                 // remove image from hand
+
 
     this.fadeOut();
     this.fadeIn();
 
-    console.log(`HAND: ${this.imgHand} --- DECK: ${this.imgDeck}`);
   }
 }
 
